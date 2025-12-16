@@ -4,7 +4,19 @@ import com.example.user.MyUser;
 
 public class DatabaseLogin {
 
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/jaas_example";
+        // + "?useSSL=true"
+        // + "&requireSSL=true"
+        // + "&verifyServerCertificate=true";
+
+    private static final String DB_USER = "root"; // Change selon ton utilisateur DB
+    private static final String DB_PASSWORD = "root"; // Change selon ton mot de passe DB
+
     public MyUser login( String username, String password) {
+
+        // System.setProperty("javax.net.ssl.trustStore", "client-truststore.jks");
+        // System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
+
         // créer un nouvel utilisateur par défaut
         MyUser user = new MyUser("", "");
         user.setIsConnected(false);
@@ -14,10 +26,7 @@ public class DatabaseLogin {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             // Connexion à la base de données MySQL
-            String jdbcUrl = "jdbc:mysql://localhost:3306/jaas_example";
-            String dbUsername = "root";  // Change selon ton utilisateur DB
-            String dbPassword = "root";  // Change selon ton mot de passe DB
-            Connection connection = DriverManager.getConnection(jdbcUrl, dbUsername, dbPassword);
+            Connection connection = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD);
 
             // Vérifier si les informations d'identification sont correctes
             String sql = "SELECT password, username FROM users WHERE username=? AND password=?";
